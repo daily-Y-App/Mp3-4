@@ -1,87 +1,478 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ရယ်ရလွန်းလို့ ဗိုက်အောင့်မယ်</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* စာမျက်နှာကို scroll လုပ်မရအောင် */
-            background-color: #00ff00;
-            font-family: 'Pyidaungsu', sans-serif;
-            transition: background 0.1s;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>နေမျိုးအောင် OVERLOAD 💀</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* ဗီဒီယိုကို ဟိုဒီပြေးအောင် လုပ်တဲ့ Animation */
-        @keyframes moveVideo {
-            0% { top: 10%; left: 10%; transform: rotate(0deg); }
-            25% { top: 50%; left: 70%; transform: rotate(20deg); }
-            50% { top: 80%; left: 20%; transform: rotate(-20deg); }
-            75% { top: 30%; left: 50%; transform: rotate(10deg); }
-            100% { top: 10%; left: 10%; transform: rotate(0deg); }
-        }
+  body {
+    background: #0a0a0a;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Segoe UI', 'Pyidaungsu', sans-serif;
+    cursor: crosshair;
+  }
 
-        .video-wrapper {
-            position: absolute;
-            width: 300px;
-            animation: moveVideo 5s infinite linear; /* ဗီဒီယိုကို ၅ စက္ကန့်တစ်ခါ ပတ်ပြေးနေစေမယ် */
-            border: 10px solid gold;
-            border-radius: 20px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-        }
+  /* Psychedelic background pulse */
+  .bg-pulse {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(ellipse at center, #1a0020 0%, #000 70%);
+    animation: bgPanic 0.4s steps(1) infinite;
+  }
 
-        video {
-            width: 100%;
-            border-radius: 10px;
-        }
+  @keyframes bgPanic {
+    0%  { background: radial-gradient(ellipse at 20% 30%, #1a0010 0%, #000 60%); }
+    10% { background: radial-gradient(ellipse at 80% 70%, #001a10 0%, #000 60%); }
+    20% { background: radial-gradient(ellipse at 50% 90%, #1a1000 0%, #000 60%); }
+    30% { background: radial-gradient(ellipse at 10% 50%, #0a001a 0%, #000 60%); }
+    40% { background: radial-gradient(ellipse at 90% 20%, #001010 0%, #000 60%); }
+    50% { background: radial-gradient(ellipse at 40% 40%, #1a0a00 0%, #000 60%); }
+    60% { background: radial-gradient(ellipse at 60% 60%, #00001a 0%, #000 60%); }
+    70% { background: radial-gradient(ellipse at 30% 80%, #0d001a 0%, #000 60%); }
+    80% { background: radial-gradient(ellipse at 70% 10%, #001a00 0%, #000 60%); }
+    90% { background: radial-gradient(ellipse at 50% 50%, #1a0000 0%, #000 60%); }
+  }
 
-        .funny-msg {
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            font-size: 30px;
-            font-weight: bold;
-            color: white;
-            text-shadow: 2px 2px 5px black;
-            z-index: 100;
-        }
+  /* MEGA scrolling background text */
+  .bg-scroller {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    opacity: 0.18;
+    pointer-events: none;
+  }
 
-        /* နောက်ခံအရောင်တွေ လျှောက်ပြောင်းနေအောင် လုပ်နည်း */
-        .color-change {
-            animation: bgChange 0.5s infinite;
-        }
+  .bg-track {
+    display: flex;
+    flex-direction: column;
+    animation: scrollUp 8s linear infinite;
+    white-space: nowrap;
+  }
 
-        @keyframes bgChange {
-            0% { background: #ff00ff; }
-            33% { background: #00ffff; }
-            66% { background: #ffff00; }
-            100% { background: #ff00ff; }
-        }
-    </style>
+  .bg-row {
+    display: flex;
+    gap: 12px;
+    padding: 4px 0;
+    animation: rowShift linear infinite;
+  }
+
+  .bg-row:nth-child(odd)  { animation-duration: 6s;  color: #ff0055; }
+  .bg-row:nth-child(even) { animation-duration: 9s;  color: #00ffca; animation-direction: reverse; }
+  .bg-row:nth-child(3n)   { color: #ffcc00; animation-duration: 7s; }
+
+  @keyframes scrollUp {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+
+  @keyframes rowShift {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-100px); }
+  }
+
+  .bg-word {
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    user-select: none;
+    display: inline-block;
+  }
+
+  #particleCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  #floatZone {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .nma {
+    position: absolute;
+    font-weight: 900;
+    color: #fff;
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: auto;
+    cursor: pointer;
+    transform-origin: center;
+  }
+
+  .central {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .central-text {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    color: #fff;
+    text-shadow:
+      0 0 10px #ff0055,
+      0 0 20px #ff0055,
+      0 0 40px #ff0055,
+      3px 3px 0 #ff0055,
+      6px 6px 0 #cc0044,
+      9px 9px 0 #990033,
+      12px 12px 20px rgba(0,0,0,0.8);
+    animation: centralPanic 0.15s steps(1) infinite;
+    letter-spacing: 4px;
+  }
+
+  @keyframes centralPanic {
+    0%   { text-shadow: 3px 3px 0 #ff0055, 6px 6px 0 #cc0044, 0 0 40px #ff0055; color: #fff; }
+    25%  { text-shadow: -3px 3px 0 #00ffca, -6px 6px 0 #00ccaa, 0 0 40px #00ffca; color: #fff; }
+    50%  { text-shadow: 3px -3px 0 #ffcc00, 6px -6px 0 #ccaa00, 0 0 40px #ffcc00; color: #fff; }
+    75%  { text-shadow: -3px -3px 0 #ff6600, -6px -6px 0 #cc5500, 0 0 40px #ff6600; color: #ff0; }
+  }
+
+  .central-sub {
+    font-size: clamp(1rem, 2.5vw, 2rem);
+    color: #ff0055;
+    animation: subFlicker 0.3s steps(1) infinite;
+    margin-top: 10px;
+    letter-spacing: 6px;
+  }
+
+  @keyframes subFlicker {
+    0%  { color: #ff0055; opacity: 1; }
+    33% { color: #00ffca; opacity: 0.7; }
+    66% { color: #ffcc00; opacity: 1; }
+  }
+
+  .shake-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    animation: screenShake 0.1s steps(1) infinite;
+    pointer-events: none;
+  }
+
+  @keyframes screenShake {
+    0%   { transform: translate(0, 0); }
+    10%  { transform: translate(-2px, 1px); }
+    20%  { transform: translate(2px, -1px); }
+    30%  { transform: translate(-1px, 2px); }
+    40%  { transform: translate(1px, 1px); }
+    50%  { transform: translate(-2px, -2px); }
+    60%  { transform: translate(2px, 2px); }
+    70%  { transform: translate(-1px, -1px); }
+    80%  { transform: translate(1px, -2px); }
+    90%  { transform: translate(-2px, 1px); }
+  }
+
+  .scanlines {
+    position: fixed;
+    inset: 0;
+    z-index: 9;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.15) 2px,
+      rgba(0,0,0,0.15) 4px
+    );
+    pointer-events: none;
+    animation: scanMove 0.05s linear infinite;
+  }
+
+  @keyframes scanMove {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 4px; }
+  }
+
+  .vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 8;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.8) 100%);
+    pointer-events: none;
+  }
+
+  .glitch-strip {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 7;
+    pointer-events: none;
+    animation: glitchStrip 0.08s steps(1) infinite;
+    background: #ff0055;
+    opacity: 0;
+  }
+
+  @keyframes glitchStrip {
+    0%   { top: 10%; opacity: 0; background: #ff0055; width: 60%; left: 20%; }
+    5%   { top: 30%; opacity: 0.8; background: #00ffca; width: 100%; left: 0; }
+    10%  { top: 70%; opacity: 0; background: #ffcc00; }
+    15%  { top: 50%; opacity: 0.6; background: #ff0055; width: 40%; left: 30%; }
+    20%  { top: 85%; opacity: 0; }
+    25%  { top: 20%; opacity: 0.9; background: #00ffca; width: 80%; left: 10%; }
+    30%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  #counter {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 15;
+    font-size: 1.2rem;
+    color: #ff0055;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #ff0055;
+    animation: counterFlicker 0.2s steps(1) infinite;
+  }
+
+  @keyframes counterFlicker {
+    0%  { color: #ff0055; text-shadow: 0 0 10px #ff0055; }
+    50% { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
+  }
+
+  #hint {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 3px;
+    animation: hintFade 1s ease-in-out infinite alternate;
+  }
+
+  @keyframes hintFade {
+    0%   { opacity: 0.2; }
+    100% { opacity: 0.6; }
+  }
+</style>
 </head>
-<body class="color-change">
+<body>
 
-    <div class="funny-msg">
-        ဟေ့ကောင်... ဗီဒီယိုကို မိအောင် ဖမ်းကြည့်လေ! 🏃‍♂️💨<br>
-        (မမိရင်တော့ မင်းညံ့လို့ပဲ 🤣)
-    </div>
+<audio id="bgAudio" loop autoplay>
+  <source src="https://github.com/daily-Y-App/Mp3-4/raw/refs/heads/main/naynoaung.mp3" type="audio/mpeg">
+</audio>
 
-    <div class="video-wrapper">
-        <video id="myVideo" controls autoplay loop muted>
-            <source src="https://raw.githubusercontent.com/daily-Y-App/Mp3-4/main/70af20f28fc42c04dd0d433450e3bd70.mp4" type="video/mp4">
-        </video>
-    </div>
+<div class="bg-pulse"></div>
 
-    <script>
-        // အသံထွက်ချင်ရင် screen ကို တစ်ချက်နှိပ်ခိုင်းဖို့လိုတယ် (Browser rule ကြောင့်)
-        document.body.onclick = function() {
-            var video = document.getElementById("myVideo");
-            video.muted = false;
-        };
-    </script>
+<div class="bg-scroller">
+  <div class="bg-track" id="bgTrack"></div>
+</div>
 
+<canvas id="particleCanvas"></canvas>
+
+<div id="floatZone"></div>
+
+<div class="shake-wrapper"></div>
+
+<div class="vignette"></div>
+<div class="scanlines"></div>
+<div class="glitch-strip"></div>
+
+<div class="central">
+  <div class="central-text">နေမျိုးအောင်🗿</div>
+  <div class="central-sub">∞ &nbsp; N M A &nbsp; ∞</div>
+</div>
+
+<div id="counter">NMA × <span id="countNum">0</span></div>
+<div id="hint">[ နှိပ်ပါ — ပေါက်ကွဲမည် ]</div>
+
+<script>
+// --- Audio Autoplay Setup ---
+const audio = document.getElementById('bgAudio');
+audio.volume = 0.7;
+
+// Browser restriction workaround: Play on first interaction
+const tryPlay = () => { audio.play().catch(() => {}); };
+document.addEventListener('click', tryPlay, { once: true });
+document.addEventListener('touchstart', tryPlay, { once: true });
+
+const NAME = "နေမျိုးအောင်🗿";
+const NAMES_ALT = ["နေမျိုးအောင်","NMA🗿"," နေမျိုး!!","🗿NMA🗿","NayMyoAung","နေမျိုးအောင်💀","N·M·A","နေ🗿မျိုး🗿အောင်"];
+const COLORS = ["#ff0055","#00ffca","#ffcc00","#ff6600","#cc00ff","#00ff44","#ff00aa","#00aaff"];
+
+let count = 0;
+const countEl = document.getElementById('countNum');
+
+// Build background rows
+const bgTrack = document.getElementById('bgTrack');
+const totalRows = 80;
+for (let pass = 0; pass < 2; pass++) {
+  for (let r = 0; r < totalRows; r++) {
+    const row = document.createElement('div');
+    row.className = 'bg-row';
+    row.style.animationDuration = (5 + Math.random() * 6) + 's';
+    for (let c = 0; c < 40; c++) {
+      const w = document.createElement('span');
+      w.className = 'bg-word';
+      w.textContent = NAMES_ALT[Math.floor(Math.random() * NAMES_ALT.length)];
+      row.appendChild(w);
+    }
+    bgTrack.appendChild(row);
+  }
+}
+
+// Particle system
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+const particles = [];
+
+class Particle {
+  constructor(x, y, big) {
+    this.x = x; this.y = y;
+    const angle = Math.random() * Math.PI * 2;
+    const speed = big ? (Math.random() * 18 + 5) : (Math.random() * 10 + 2);
+    this.vx = Math.cos(angle) * speed;
+    this.vy = Math.sin(angle) * speed;
+    this.life = 1;
+    this.decay = big ? (0.008 + Math.random() * 0.012) : (0.015 + Math.random() * 0.02);
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.r = big ? (Math.random() * 6 + 3) : (Math.random() * 3 + 1);
+    this.text = big && Math.random() < 0.4 ? NAME : null;
+    this.fontSize = Math.random() * 20 + 10;
+    this.gravity = 0.3;
+    this.spin = (Math.random() - 0.5) * 0.3;
+    this.angle = 0;
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    this.vy += this.gravity; this.vx *= 0.98;
+    this.life -= this.decay; this.angle += this.spin;
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, this.life);
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    if (this.text) {
+      ctx.font = `bold ${this.fontSize}px Pyidaungsu, sans-serif`;
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur = 10;
+      ctx.fillText(this.text, 0, 0);
+    } else {
+      ctx.beginPath();
+      ctx.arc(0, 0, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur = 8;
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+function explode(x, y, big) {
+  const n = big ? 120 : 40;
+  for (let i = 0; i < n; i++) particles.push(new Particle(x, y, big));
+  count++;
+  countEl.textContent = count;
+}
+
+function loop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = particles.length - 1; i >= 0; i--) {
+    particles[i].update();
+    particles[i].draw();
+    if (particles[i].life <= 0) particles.splice(i, 1);
+  }
+  requestAnimationFrame(loop);
+}
+loop();
+
+const floatZone = document.getElementById('floatZone');
+
+function spawnShooter() {
+  const el = document.createElement('div');
+  el.className = 'nma';
+  const fromLeft = Math.random() < 0.5;
+  const startY = Math.random() * window.innerHeight;
+  const startX = fromLeft ? -400 : window.innerWidth + 200;
+  const endX = fromLeft ? window.innerWidth + 200 : -600;
+  const duration = 800 + Math.random() * 1200;
+
+  el.style.left = startX + 'px';
+  el.style.top = startY + 'px';
+  el.style.fontSize = (Math.random() * 40 + 14) + 'px';
+  el.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+  const c = COLORS[Math.floor(Math.random() * COLORS.length)];
+  el.style.textShadow = `2px 2px 0 ${c}, 0 0 15px ${c}`;
+  el.textContent = NAMES_ALT[Math.floor(Math.random() * NAMES_ALT.length)];
+
+  const startTime = performance.now();
+  floatZone.appendChild(el);
+
+  el.addEventListener('click', (e) => { explode(e.clientX, e.clientY, true); el.remove(); });
+
+  function move(now) {
+    const t = (now - startTime) / duration;
+    if (t >= 1) { el.remove(); return; }
+    const x = startX + (endX - startX) * t;
+    const wobble = Math.sin(t * Math.PI * 6) * 30;
+    el.style.transform = `translate(${x - startX}px, ${wobble}px) rotate(${wobble * 0.3}deg)`;
+    requestAnimationFrame(move);
+  }
+  requestAnimationFrame(move);
+}
+
+function spawnBouncer() {
+  const el = document.createElement('div');
+  el.className = 'nma';
+  let x = Math.random() * window.innerWidth;
+  let y = Math.random() * window.innerHeight;
+  let vx = (Math.random() - 0.5) * 10;
+  let vy = (Math.random() - 0.5) * 10;
+  const size = Math.random() * 40 + 20;
+
+  el.style.fontSize = size + 'px';
+  el.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+  el.textContent = NAME;
+  floatZone.appendChild(el);
+
+  el.addEventListener('click', (e) => { explode(e.clientX, e.clientY, true); el.remove(); });
+
+  function bounce() {
+    if (!el.isConnected) return;
+    x += vx; y += vy;
+    if (x < 0 || x > window.innerWidth - 100) vx *= -1;
+    if (y < 0 || y > window.innerHeight - 50) vy *= -1;
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    requestAnimationFrame(bounce);
+  }
+  bounce();
+}
+
+setInterval(spawnShooter, 400);
+for(let i=0; i<10; i++) spawnBouncer();
+setInterval(() => { if (floatZone.children.length < 50) spawnBouncer(); }, 1000);
+document.addEventListener('click', (e) => explode(e.clientX, e.clientY, true));
+</script>
 </body>
 </html>
+
