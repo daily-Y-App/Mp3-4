@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ရယ်ရလွန်းလို့ ဗိုက်အောင့်မယ်</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* စာမျက်နှာကို scroll လုပ်မရအောင် */
+            background-color: #00ff00;
+            font-family: 'Pyidaungsu', sans-serif;
+            transition: background 0.1s;
+        }
+
+        /* ဗီဒီယိုကို ဟိုဒီပြေးအောင် လုပ်တဲ့ Animation */
+        @keyframes moveVideo {
+            0% { top: 10%; left: 10%; transform: rotate(0deg); }
+            25% { top: 50%; left: 70%; transform: rotate(20deg); }
+            50% { top: 80%; left: 20%; transform: rotate(-20deg); }
+            75% { top: 30%; left: 50%; transform: rotate(10deg); }
+            100% { top: 10%; left: 10%; transform: rotate(0deg); }
+        }
+
+        .video-wrapper {
+            position: absolute;
+            width: 300px;
+            animation: moveVideo 5s infinite linear; /* ဗီဒီယိုကို ၅ စက္ကန့်တစ်ခါ ပတ်ပြေးနေစေမယ် */
+            border: 10px solid gold;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        video {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .funny-msg {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 5px black;
+            z-index: 100;
+        }
+
+        /* နောက်ခံအရောင်တွေ လျှောက်ပြောင်းနေအောင် လုပ်နည်း */
+        .color-change {
+            animation: bgChange 0.5s infinite;
+        }
+
+        @keyframes bgChange {
+            0% { background: #ff00ff; }
+            33% { background: #00ffff; }
+            66% { background: #ffff00; }
+            100% { background: #ff00ff; }
+        }
+    </style>
+</head>
+<body class="color-change">
+
+    <div class="funny-msg">
+        ဟေ့ကောင်... ဗီဒီယိုကို မိအောင် ဖမ်းကြည့်လေ! 🏃‍♂️💨<br>
+        (မမိရင်တော့ မင်းညံ့လို့ပဲ 🤣)
+    </div>
+
+    <div class="video-wrapper">
+        <video id="myVideo" controls autoplay loop muted>
+            <source src="https://raw.githubusercontent.com/daily-Y-App/Mp3-4/main/70af20f28fc42c04dd0d433450e3bd70.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <script>
+        // အသံထွက်ချင်ရင် screen ကို တစ်ချက်နှိပ်ခိုင်းဖို့လိုတယ် (Browser rule ကြောင့်)
+        document.body.onclick = function() {
+            var video = document.getElementById("myVideo");
+            video.muted = false;
+        };
+    </script>
+
+</body>
+</html>
